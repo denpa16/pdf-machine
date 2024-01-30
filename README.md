@@ -12,3 +12,6 @@ docker-compose -f docker-compose.yml -f docker-compose.override.yml up --remove-
 ```shell
 http://localhost:8000/convert?url=https://neometria.ru/about
 ```
+
+## Проект основан на основе наработок
+```https://github.com/SebastiaanKlippert/go-wkhtmltopdf/blob/master/wkhtmltopdf.go```
