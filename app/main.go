@@ -9,33 +9,30 @@ import (
 )
 
 func urlToPDFHandler(w http.ResponseWriter, r *http.Request) {
-    // Get URL from query parameter
     url := r.URL.Query().Get("url")
+    format := r.URL.Query().Get("format")
     if url == "" {
         http.Error(w, "Missing 'url' query parameter", http.StatusBadRequest)
         return
     }
-
-    // Set up the PDF generator
+    if format == "" {
+        http.Error(w, "Missing 'format' query parameter", http.StatusBadRequest)
+        return
+    }
     pdfg, err := wkhtmltopdf.NewPDFGenerator()
     if err != nil {
         http.Error(w, err.Error(), http.StatusInternalServerError)
         return
     }
-
-    // Add the URL to convert
+    pdfg.PageSize.Set(format)
     page := wkhtmltopdf.NewPage(url)
     pdfg.AddPage(page)
-
-    // Create and write the PDF to response
     err = pdfg.Create()
     if err != nil {
         http.Error(w, err.Error(), http.StatusInternalServerError)
         return
     }
-
     w.Header().Set("Content-Type", "application/pdf")
-    //w.Header().Set("Content-Disposition", "attachment; filename=\"converted.pdf\"")
     _, err = w.Write(pdfg.Bytes())
     if err != nil {
         http.Error(w, err.Error(), http.StatusInternalServerError)
@@ -45,7 +42,6 @@ func urlToPDFHandler(w http.ResponseWriter, r *http.Request) {
 
 func main() {
     http.HandleFunc("/convert", urlToPDFHandler)
-
     port := ":8000"
     fmt.Printf("Listening on port %s...\n", port)
     if err := http.ListenAndServe(port, nil); err != nil {
