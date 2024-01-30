@@ -1,0 +1,12 @@
+version: '3.8'
+
+x-app_environment: &app_environment
+  environment:
+    - SITE_HOST
+
+
+services:
+  app:
+    build:
+      context: ./app
+    <<: *app_environment

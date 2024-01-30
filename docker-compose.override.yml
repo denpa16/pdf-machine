@@ -1,0 +1,11 @@
+version: '3.8'
+
+services:
+
+  app:
+    restart: unless-stopped
+    volumes:
+      - ./app/:/app/:cached
+    command: go run main.go
+    ports:
+      - "8000:8000"
