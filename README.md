@@ -10,8 +10,10 @@ docker-compose -f docker-compose.yml -f docker-compose.override.yml up --remove-
 ## Пример
 
 ```shell
-http://localhost:8000/convert?url=https://neometria.ru/about
+http://localhost:8000/convert?url=https://neometria.ru/about&format=A4
 ```
+
+параметр ```format``` необходимо передавать в виде A1, A2, и т.д.
 
 ## Проект основан на основе наработок
 ```https://github.com/SebastiaanKlippert/go-wkhtmltopdf/blob/master/wkhtmltopdf.go```
